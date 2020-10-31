@@ -60,7 +60,22 @@ tailrec fun paktorial(nums: Int, total: Int): Int{
         else -> paktorial(nums - 1,nums * total)
     }
 }
-
+//inline function berfungsi untuk mengubah high order function menjadi inline function, agar tidak memproses lambda yang terlalu banyak
+inline fun halo(name: () -> String): String{
+    return "halo ${name()}"
+}
+//label adalah sebuah penanda, semua expression di kotlin bisa ditandai dengan label menggunakan @
+//diintegrasikan dengan break, continue dan return
+fun labelBreak(){
+    loopI@ for (i in 1..100) {
+        loopJ@ for (j in 1..100) {
+            if (i < 10) {
+                break@loopI
+            }
+            println("${i} * ${j} = ${i * j}")
+        }
+    }
+}
 fun main(){
     //local function
     fun localScope(){
@@ -68,8 +83,20 @@ fun main(){
     }
     localScope();
 
-    
-    
+
+
+    //label continue
+    //label adalah sebuah penanda, semua expression di kotlin bisa ditandai dengan label menggunakan @
+    //diintegrasikan dengan break, continue dan return
+    looplI@ for(i in 1..100){
+        loopJ@ for(j in 1..100){
+            if (j == 5){
+                continue@loopJ
+            }
+            println("${i} * ${j} = ${i * j}")
+        }
+    }
+
 
 
     //lambda function
@@ -83,7 +110,7 @@ fun main(){
         val kita = "$namaku cinta $namamu"
         kita
     }
-    
+
     //it pada lambda berfungsi sebagai parameter yang pertama tapi bisa jalan kalau parameternya 1, berfungsi agar tidak menulis ulang parameter
     val lambdaName: (String) -> String = {
         it.toUpperCase()
@@ -93,8 +120,8 @@ fun main(){
     val kaliKuadrat : (Int) -> Int = ::pangkat
     val kuadrat = kaliKuadrat(10)
     println(kuadrat)
-    
-    
+
+
 
     //higher order function, function yang menginputkan lambda
     fun hello(value:String, transformer:(String) -> String):String{
@@ -108,7 +135,24 @@ fun main(){
 
 
 
-    //anonymous function
+    //anonymous function, kodenya bisa lebih kompleks dari lambda
+    val anonymousFun = fun(value: String): String{
+        if (value.isBlank()){
+            return "ups"
+        }
+        return value.toLowerCase()
+    }
+
+    println(anonymousFun("Aku"))
+
+
+    //closure adalah kemampuan sebuah function, lambda atau anonymous function berinteraksi dengan data disekitarnya dengan scope yang sama
+    var counter = 0
+    val lambdaIncrement : () -> Unit = {
+        println("increment")
+        counter++
+    }
+    lambdaIncrement()
 
 
 
